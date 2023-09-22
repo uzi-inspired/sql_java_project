@@ -2,6 +2,8 @@ package sql;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Scanner;
+
 public class SqlTest {
 
     // Retrieve the number of customers from the database
@@ -25,4 +27,14 @@ public class SqlTest {
     public void retrieveTransactionsForAccount_checkTotalBalance_shouldBeZero() {
 
     }
+    @Test
+    public void scanner () {
+
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Enter customerID");
+
+        String userName = myObj.nextLine();  // Read user input
+        System.out.println("Username is: " + userName);  // Output user input
+    }
 }
+
