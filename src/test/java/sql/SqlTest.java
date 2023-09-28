@@ -11,7 +11,7 @@ public class SqlTest extends Base{
     // Check that the total number of customers is equal to 2
     @Test
     public void getAllCustomers_checkNumber_shouldBeTwo() {
-        String sqlStatement = "SELECT customer_id FROM customer_details";
+        String sqlStatement = "SELECT customer_id FROM customer_details;";
 
         try (Connection conn = connectToDB()) {
             ResultSet result = executeQuery(conn, sqlStatement);
@@ -32,7 +32,18 @@ public class SqlTest extends Base{
     // Check that the total number of accounts for her is 2
     @Test
     public void getAccountsForSarah_checkNumber_shouldBeTwo() {
+        String SQLStatement = "SELECT COUNT(*) AS total_accounts FROM account_details WHERE first_name = Sarah;";
+        try (Connection conn = connectToDB()) {
+            ResultSet result = executeQuery(conn, SQLStatement);
 
+            while (result != null && result.next()) {
+                int id = result.getInt("customer_id");
+                System.out.println("ID: " + id);
+                // You can add your validation logic here
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // A test that checks that the total of all transactions is equal to 0 for a given account.
@@ -40,6 +51,7 @@ public class SqlTest extends Base{
     // and you’re allowed to use the account ID for that account in the query
     @Test
     public void retrieveTransactionsForAccount_checkTotalBalance_shouldBeZero() {
+        String SQLStatement ="";
 
     }
 
