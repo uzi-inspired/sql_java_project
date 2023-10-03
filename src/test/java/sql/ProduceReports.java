@@ -19,7 +19,7 @@ public class ProduceReports extends Base {
         int id = scanner.nextInt();
         getAddress(id);
         getBalance(id);
-        //getAccountDetails(id);
+        getTransactions(id);
     }
 
     public static void getAddress(int id) {
@@ -63,10 +63,38 @@ public class ProduceReports extends Base {
 
                 System.out.println("ID: " + id);
                 System.out.println("Total Balance: " + totalBalance);
-
             }
 
         }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void getTransactions(int id){
+        String sqlAccountNumber = "SELECT account_number FROM account_details WHERE customer_id = " + id + ";";
+        try (Connection conn = connectToDB()){
+            ResultSet accountNumbers = executeQuery(conn, sqlAccountNumber);
+
+            while(accountNumbers != null && accountNumbers.next()){
+                int accountNumber = accountNumbers.getInt("account_number");
+
+                String sqlTransactions = "SELECT * FROM transaction WHERE account_number = " + accountNumber + ";";
+                ResultSet result = executeQuery(conn, sqlTransactions);
+                while (result != null && result.next()){
+                    int accountNum = result.getInt("account_number");
+                    String transactionDate = result.getString("date_of_transaction");
+                    int transactionAmount = result.getInt("amount");
+                    String transactionType = result.getString("transaction_type");
+
+
+                    System.out.println("Account Number: " + accountNum);
+                    System.out.println("Date of Transaction: " + transactionDate);
+                    System.out.println("Amount: " + transactionAmount);
+                    System.out.println("Type: " + transactionType);
+                }
+            }
+
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
