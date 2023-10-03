@@ -54,23 +54,10 @@ public class SqlTest extends Base {
     // and you’re allowed to use the account ID for that account in the query
     @Test
     public void retrieveTransactionsForAccount_checkTotalBalance_shouldBeZero() {
-        String calcBalance = "UPDATE account_details AS ad\n" +
-                "JOIN (\n" +
-                "\tSELECT\n" +
-                "\tt.account_number, \n" +
-                "    SUM(t.amount) AS total_amount\n" +
-                "    FROM \n" +
-                "    transaction AS t\n" +
-                "    GROUP BY \n" +
-                "    t.account_number\n" +
-                "    ) AS transaction_summary\n" +
-                "    ON ad.account_number = transaction_summary.account_number\n" +
-                "    SET ad.balance = 0.00,\n" +
-                "\tad.balance = ad.balance + transaction_summary.total_amount;";
-        String SQLStatement = "SELECT SUM(amount) AS total_balance FROM transaction WHERE account_number = 3";
+
+        String SQLStatement = "SELECT SUM(amount) AS total_balance FROM transaction WHERE account_number = 1";
 
         try (Connection conn = connectToDB()) {
-            executeQuery(conn, calcBalance);
             ResultSet result = executeQuery(conn, SQLStatement);
 
             while (result != null && result.next()) {
@@ -78,7 +65,7 @@ public class SqlTest extends Base {
 
                 System.out.println(totalAmount);
                 // You can add your validation logic here
-                assertEquals(0.0, totalAmount);
+                assertEquals(0.00, totalAmount);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

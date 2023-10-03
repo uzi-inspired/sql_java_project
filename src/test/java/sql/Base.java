@@ -1,7 +1,5 @@
 package sql;
 
-import org.junit.jupiter.api.BeforeAll;
-
 import java.sql.*;
 
 public class Base {
