@@ -12,9 +12,7 @@ public class Base {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(DBconnUrl, DBusername, DBpassword);
-            if (conn != null) {
-                System.out.println("Connected to server");
-            } else {
+            if (conn == null) {
                 System.out.println("No connection");
             }
         } catch (SQLException e) {

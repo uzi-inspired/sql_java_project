@@ -17,13 +17,22 @@ public class ProduceReports extends Base {
 
         System.out.println("Enter the customer ID");
         int id = scanner.nextInt();
-        getAddress(id);
-        getBalance(id);
-        getTransactions(id);
+
+        int validID = getID(id);
+        if(validID != 0){
+        System.out.println("Address Information: ");
+        getAddress(validID);
+        System.out.println("\nUser's Total Balance: ");
+        getBalance(validID);
+        System.out.println("\nUser Transactions: ");
+        getTransactions(validID);
+        }else{
+            System.out.println("Invalid ID!");
+        }
     }
 
-    public static void getAddress(int id) {
-        String sqlStatement = "SELECT * FROM customer_details WHERE customer_id =" + id;
+    public static void getAddress(int validID) {
+        String sqlStatement = "SELECT * FROM customer_details WHERE customer_id =" + validID;
 
         try (Connection conn = connectToDB()) {
             ResultSet result = executeQuery(conn, sqlStatement);
@@ -31,7 +40,7 @@ public class ProduceReports extends Base {
             while (result != null && result.next()) {
 
                 //Printing out of the data
-                id = result.getInt("customer_id");
+                int id = result.getInt("customer_id");
                 String streetName = result.getString("street_name");
                 int houseNumber = result.getInt("house_number");
                 int zipCode = result.getInt("zip_code");
@@ -51,8 +60,8 @@ public class ProduceReports extends Base {
         }
     }
 
-    public static void getBalance(int id){
-        String sqlStatement = "SELECT SUM(balance) AS total_balance FROM account_details WHERE customer_id = " + id + ";";
+    public static void getBalance(int validId){
+        String sqlStatement = "SELECT SUM(balance) AS total_balance FROM account_details WHERE customer_id = " + validId + ";";
         try (Connection conn = connectToDB()) {
             ResultSet result = executeQuery(conn, sqlStatement);
 
@@ -61,7 +70,7 @@ public class ProduceReports extends Base {
                 //Printing out of the data
                 int totalBalance = result.getInt("total_balance");
 
-                System.out.println("ID: " + id);
+                System.out.println("ID: " + validId);
                 System.out.println("Total Balance: " + totalBalance);
             }
 
@@ -70,8 +79,8 @@ public class ProduceReports extends Base {
         }
     }
 
-    public static void getTransactions(int id){
-        String sqlAccountNumber = "SELECT account_number FROM account_details WHERE customer_id = " + id + ";";
+    public static void getTransactions(int validId){
+        String sqlAccountNumber = "SELECT account_number FROM account_details WHERE customer_id = " + validId + ";";
         try (Connection conn = connectToDB()){
             ResultSet accountNumbers = executeQuery(conn, sqlAccountNumber);
 
@@ -97,6 +106,20 @@ public class ProduceReports extends Base {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static int getID(int id) {
+        String getUserId = "SELECT customer_id FROM customer_details WHERE customer_id = " + id + ";";
+        int customer_id = 0;
+        try (Connection conn = connectToDB()) {
+            ResultSet user_Id = executeQuery(conn, getUserId);
+
+            customer_id = user_Id.getInt("customer_id");
+            System.out.println(customer_id);
+        } catch (SQLException e) {
+            System.out.println("Invalid Customer ID!");
+        }
+        return customer_id; //FIX THIS
     }
 }
 
