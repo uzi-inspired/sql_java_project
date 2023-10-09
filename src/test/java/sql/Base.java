@@ -7,7 +7,7 @@ public class Base {
     private static String DBusername = "sqljavaproject_oldcrowdno";
     private static String DBpassword = "92cd9151ff3473e5107253cbba84374d998eb545";
 
-
+    //Helper function that establishes connection to SQL DB
     public static Connection connectToDB() {
         Connection conn = null;
         try {
@@ -21,6 +21,7 @@ public class Base {
         return conn;
     }
 
+    // Helper function that enables easier handling of result set output
     public static ResultSet executeQuery(Connection conn, String sqlStatement) {
         ResultSet res = null;
         try {
@@ -31,15 +32,4 @@ public class Base {
         }
         return res;
     }
-
-    public static void closeConnection(Connection conn) {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
 }

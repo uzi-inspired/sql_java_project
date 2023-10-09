@@ -31,15 +31,17 @@ public class ProduceReports extends Base {
         }
     }
 
+    //Function for providing customer address details based off of validated customer id
     public static void getAddress(int validID) {
         String sqlStatement = "SELECT * FROM customer_details WHERE customer_id =" + validID;
 
+        //Implemented try/catch to catch exceptions instead of adding it to the method signature
         try (Connection conn = connectToDB()) {
             ResultSet result = executeQuery(conn, sqlStatement);
 
+            //Iterates through the result set and prints out the data into a human-readable format
             while (result != null && result.next()) {
 
-                //Printing out of the data
                 int id = result.getInt("customer_id");
                 String streetName = result.getString("street_name");
                 int houseNumber = result.getInt("house_number");
@@ -60,6 +62,7 @@ public class ProduceReports extends Base {
         }
     }
 
+    //Function for providing total balance of customer accounts
     public static void getBalance(int validId){
         String sqlStatement = "SELECT SUM(balance) AS total_balance FROM account_details WHERE customer_id = " + validId + ";";
         try (Connection conn = connectToDB()) {
@@ -67,7 +70,6 @@ public class ProduceReports extends Base {
 
             while (result != null && result.next()) {
 
-                //Printing out of the data
                 int totalBalance = result.getInt("total_balance");
 
                 System.out.println("ID: " + validId);
@@ -79,7 +81,9 @@ public class ProduceReports extends Base {
         }
     }
 
+    //Function that provides a list of all transactions associated with a given customer id
     public static void getTransactions(int validId){
+        //finds all account number associated with the customer id
         String sqlAccountNumber = "SELECT account_number FROM account_details WHERE customer_id = " + validId + ";";
         try (Connection conn = connectToDB()){
             ResultSet accountNumbers = executeQuery(conn, sqlAccountNumber);
@@ -87,6 +91,7 @@ public class ProduceReports extends Base {
             while(accountNumbers != null && accountNumbers.next()){
                 int accountNumber = accountNumbers.getInt("account_number");
 
+                //Returns all transactions for a given account number
                 String sqlTransactions = "SELECT * FROM transaction WHERE account_number = " + accountNumber + ";";
                 ResultSet result = executeQuery(conn, sqlTransactions);
                 while (result != null && result.next()){
@@ -108,6 +113,7 @@ public class ProduceReports extends Base {
         }
     }
 
+    //Function that verifies if given id exists in the DB
     public static int getID(int id) {
         String getUserId = "SELECT customer_id FROM customer_details WHERE customer_id = " + id + ";";
         int customer_id = 0;
@@ -116,7 +122,6 @@ public class ProduceReports extends Base {
 
             if (user_Id.next()) {
                 customer_id = user_Id.getInt("customer_id");
-                System.out.println(customer_id);
             } else {
                 System.out.println("No matching record found.");
             }

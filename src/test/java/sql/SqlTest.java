@@ -3,7 +3,6 @@ package sql;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,7 +20,6 @@ public class SqlTest extends Base {
             while (result != null && result.next()) {
                 int id = result.getInt("customer_id");
                 System.out.println(id);
-                // You can add your validation logic here
                 assertEquals(2, id);
             }
         } catch (SQLException e) {
@@ -41,7 +39,6 @@ public class SqlTest extends Base {
                 int count = result.getInt("total_accounts");
 
                 System.out.println(count);
-                // You can add your validation logic here
                 assertEquals(2, count);
             }
         } catch (SQLException e) {
@@ -64,7 +61,6 @@ public class SqlTest extends Base {
                 double totalAmount = result.getDouble("total_balance");
 
                 System.out.println(totalAmount);
-                // You can add your validation logic here
                 assertEquals(0.00, totalAmount);
             }
         } catch (SQLException e) {
