@@ -114,13 +114,20 @@ public class ProduceReports extends Base {
         try (Connection conn = connectToDB()) {
             ResultSet user_Id = executeQuery(conn, getUserId);
 
-            customer_id = user_Id.getInt("customer_id");
-            System.out.println(customer_id);
+            if (user_Id.next()) {
+                customer_id = user_Id.getInt("customer_id");
+                System.out.println(customer_id);
+            } else {
+                System.out.println("No matching record found.");
+            }
+
+            return customer_id;
         } catch (SQLException e) {
-            System.out.println("Invalid Customer ID!");
+            System.out.println(e.getMessage());
         }
-        return customer_id; //FIX THIS
+        return customer_id;
     }
+
 }
 
 
