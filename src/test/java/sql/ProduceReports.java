@@ -29,6 +29,7 @@ public class ProduceReports extends Base {
         }else{
             System.out.println("Invalid ID!");
         }
+        scanner.close();
     }
 
     //Function for providing customer address details based off of validated customer id
