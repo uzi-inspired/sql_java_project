@@ -52,7 +52,7 @@ public class SqlTest extends Base {
     @Test
     public void retrieveTransactionsForAccount_checkTotalBalance_shouldBeZero() {
 
-        String SQLStatement = "SELECT SUM(amount) AS total_balance FROM transaction WHERE account_number = 1";
+        String SQLStatement = "SELECT SUM(amount) AS total_balance FROM transaction WHERE account_number = 3";
 
         try (Connection conn = connectToDB()) {
             ResultSet result = executeQuery(conn, SQLStatement);
